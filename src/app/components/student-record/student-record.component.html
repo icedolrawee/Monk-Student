@@ -1,0 +1,142 @@
+<div class="student-record-page">
+  <header class="topbar">
+    <div class="brand">
+      <div class="logo-frame"><img src="images/ramkhamhaeng-logo.svg"
+          alt="ตราสัญลักษณ์มหาวิทยาลัยรามคำแหง พระรูปพ่อขุนรามคำแหงมหาราช" /></div>
+      <div class="brand-copy"><span class="university-label">RAMKHAMHAENG
+          UNIVERSITY</span><strong>ระบบบันทึกข้อมูลนักศึกษา</strong><span class="system-name">สถานะพระ</span></div>
+    </div>
+    <div class="staff-area">
+      <app-user-profile />
+      <button class="logout-button" type="button" (click)="logout()"><span class="nav-icon logout-icon"
+          aria-hidden="true"></span><span>ออกจากระบบ</span></button>
+    </div>
+  </header>
+  <div class="page-layout">
+    <aside class="sidebar" aria-label="เมนูหลัก">
+      <div class="sidebar-heading">
+        <span class="sidebar-heading-line"></span>
+        <span>เมนูหลัก</span>
+      </div>
+      <nav>
+        <a class="nav-item" routerLink="/student-record" routerLinkActive="active"><span class="nav-icon record-icon"
+            aria-hidden="true"></span><span>ค้นหาข้อมูลนักศึกษา</span></a>
+        <a class="nav-item" routerLink="/record-list" routerLinkActive="active"><span class="nav-icon list-icon"
+            aria-hidden="true"></span><span>รายการข้อมูลที่บันทึก</span></a>
+      </nav>
+    </aside>
+    <main class="main-content">
+      <section class="page-heading">
+        <div><span class="section-eyebrow"></span>
+          <h1>บันทึกข้อมูลนักศึกษาสถานะพระ</h1>
+          <p>ค้นหาข้อมูลนักศึกษา ตรวจสอบการลงทะเบียน และเตรียมบันทึกสถานะพระ</p>
+        </div>
+      </section>
+      <section class="record-card">
+        <div class="card-heading search-card-heading">
+          <div class="heading-icon" aria-hidden="true"><span class="record-icon"></span></div>
+          <div>
+            <h2>ค้นหาข้อมูลนักศึกษา</h2>
+            <p>กรอกรหัสนักศึกษาเพื่อค้นหาข้อมูลและตรวจสอบการลงทะเบียน</p>
+          </div>
+        </div>
+        <div class="student-search-row">
+          <div class="field student-id-field"><label for="studentId">รหัสนักศึกษา <span>*</span></label>
+            <div class="student-search-controls"><input id="studentId" type="text" [(ngModel)]="studentId"
+                placeholder="กรอกรหัสนักศึกษา" maxlength="20" (keyup.enter)="searchStudent()" /><button
+                class="primary-button search-button" type="button" (click)="searchStudent()"
+                [disabled]="isSearching">@if (isSearching) {<span class="spinner"
+                  aria-hidden="true"></span><span>กำลังค้นหา...</span>} @else {<span class="search-icon"
+                  aria-hidden="true"></span><span>ค้นหา</span>}</button></div><small>ตัวอย่าง: 6500000000</small>
+          </div>
+        </div>
+        @if (errorMessage) {<div class="message error-message" role="alert"><span
+            class="message-symbol">!</span><span>{{ errorMessage }}</span></div>}
+      </section>
+      @if (showResult && student) {
+      <section class="student-result-card">
+        <div class="result-heading">
+          <div><span class="section-eyebrow">STUDENT INFORMATION</span>
+            <h2>ข้อมูลนักศึกษา</h2>
+          </div><span class="status-badge" [class.status-pending]="!academicYear || !semester"
+            [class.status-failed]="academicYear && semester && registration.length === 0"><span
+              class="status-dot"></span>{{ !academicYear || !semester ? 'กรุณาเลือกปีการศึกษาและภาคการศึกษา' :
+            registration.length > 0 ? 'ลงทะเบียนแล้ว' : 'ไม่ได้ลงทะเบียนในภาคเรียนนี้' }}</span>
+        </div>
+        <div class="student-info-grid">
+          <div class="info-item"><span>รหัสนักศึกษา</span><strong>{{ student.STD_CODE }}</strong></div>
+          <div class="info-item"><span>ชื่อ - นามสกุล</span><strong>{{ student.FIRST_NAME_THAI ?? '-' }}{{
+              student.MIDDLE_NAME_THAI ? ' ' + student.MIDDLE_NAME_THAI : '' }} {{ student.LAST_NAME_THAI ?? '-'
+              }}</strong></div>
+          <div class="info-item"><span>คณะ</span><strong>{{ student.FACULTY_NAME_THAI ?? '-' }}</strong></div>
+          <div class="info-item"><span>สาขา</span><strong>{{ student.MAJOR_NAME_THAI ?? '-' }}</strong></div>
+        </div>
+        <div class="term-selection">
+          <div class="field">
+            <label for="academicYear">ปีการศึกษา <span>*</span></label>
+            <select id="academicYear" [(ngModel)]="academicYear" (ngModelChange)="onAcademicYearChange()"
+              [disabled]="isLoadingTerms || availableYears.length === 0">
+              <option value="" disabled>{{ isLoadingTerms ? 'กำลังโหลดปีการศึกษา...' : availableYears.length === 0 ?
+                'ไม่มีปีการศึกษาให้เลือก' : 'เลือกปีการศึกษา' }}</option>
+              @for (year of availableYears; track year) {<option [value]="year">{{ year }}</option>}
+            </select>
+          </div>
+          <div class="field">
+            <label for="semester">ภาคการศึกษา <span>*</span></label>
+            <select id="semester" [(ngModel)]="semester" (ngModelChange)="onSemesterChange()"
+              [disabled]="isLoadingTerms || !academicYear || availableSemesters.length === 0">
+              <option value="">{{ isLoadingTerms ? 'กำลังโหลดภาคการศึกษา...' : !academicYear ? 'เลือกปีการศึกษาก่อน' :
+                availableSemesters.length === 0 ? 'ไม่มีภาคการศึกษาให้เลือก' : 'เลือกภาคการศึกษา' }}</option>
+              @for (termSemester of availableSemesters; track termSemester) {<option [value]="termSemester">{{
+                getSemesterLabel(termSemester) }}</option>}
+            </select>
+          </div>
+        </div>
+        @if (termsLoadMessage) {<div class="message error-message" role="alert"><span
+            class="message-symbol">!</span><span>{{ termsLoadMessage }}</span></div>}
+        @if (registrationMessage) {<div class="message error-message" role="alert"><span
+            class="message-symbol">!</span><span>{{ registrationMessage }}</span></div>}
+        @if (registration.length > 0) {<div class="result-divider"></div>
+        <div class="registration-section">
+          <h3>รายวิชาที่ลงทะเบียน</h3>
+          <div class="registration-table-wrap">
+            <table>
+              <colgroup>
+                <col class="col-sequence">
+                <col class="col-course">
+                <col class="col-section">
+                <col class="col-credit">
+              </colgroup>
+              <thead>
+                <tr>
+                  <th class="col-sequence">ลำดับ</th>
+                  <th class="col-course">รหัสวิชา</th>
+                  <th class="col-section">กลุ่มเรียน</th>
+                  <th class="col-credit">หน่วยกิต</th>
+                </tr>
+              </thead>
+              <tbody>@for (item of registration; track $index; let i = $index) {<tr>
+                  <td class="col-sequence">{{ i + 1 }}</td>
+                  <td class="col-course">{{ item.COURSE_NO ?? '-' }}</td>
+                  <td class="col-section">{{ item.SECTION_NO ?? '-' }}</td>
+                  <td class="col-credit">{{ item.CREDIT ?? '-' }}</td>
+                </tr>}</tbody>
+            </table>
+          </div>
+        </div>}
+        <div class="result-divider"></div>
+        <div class="save-area">
+          <div>
+            <p>บันทึกข้อมูลนักศึกษาที่ลงทะเบียนในภาคเรียนที่เลือกลงฐานข้อมูล</p>
+          </div>
+          <div class="save-actions"><button class="primary-button" type="button" (click)="saveStudent()"
+              [disabled]="isSaving || !academicYear || !semester || registration.length === 0">@if (isSaving)
+              {กำลังบันทึก...} @else {บันทึกสถานะพระ}</button></div>
+        </div>
+        @if (saveMessage) {<div class="message success-message" role="status"><span
+            class="message-symbol">✓</span><span>{{ saveMessage }}</span></div>}
+      </section>
+      }
+    </main>
+  </div>
+</div>

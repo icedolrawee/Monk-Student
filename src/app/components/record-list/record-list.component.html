@@ -1,0 +1,78 @@
+<div class="record-list-page">
+  <header class="topbar">
+    <div class="brand">
+      <div class="logo-frame"><img src="images/ramkhamhaeng-logo.svg"
+          alt="ตราสัญลักษณ์มหาวิทยาลัยรามคำแหง พระรูปพ่อขุนรามคำแหงมหาราช" /></div>
+      <div class="brand-copy"><span class="university-label">RAMKHAMHAENG
+          UNIVERSITY</span><strong>ระบบบันทึกข้อมูลนักศึกษา</strong><span class="system-name">สถานะพระ</span></div>
+    </div>
+    <div class="staff-area"><app-user-profile /><button class="logout-button" type="button" (click)="logout()"><span
+          class="nav-icon logout-icon" aria-hidden="true"></span><span>ออกจากระบบ</span></button></div>
+  </header>
+  <div class="page-layout">
+    <aside class="sidebar" aria-label="เมนูหลัก">
+      <div class="sidebar-heading"><span class="sidebar-heading-line"></span><span>เมนูหลัก</span></div>
+      <nav>
+        <a class="nav-item" routerLink="/student-record" routerLinkActive="active"><span class="nav-icon record-icon"
+            aria-hidden="true"></span><span>ค้นหาข้อมูลนักศึกษา</span></a>
+        <a class="nav-item" routerLink="/record-list" routerLinkActive="active"><span class="nav-icon list-icon"
+            aria-hidden="true"></span><span>รายการข้อมูลที่บันทึก</span></a>
+      </nav>
+    </aside>
+    <main class="main-content">
+      <section class="page-heading"><span class="section-eyebrow"></span>
+        <h1>รายการข้อมูลที่บันทึก</h1>
+        <p>รายการข้อมูลนักศึกษาสถานะพระที่บันทึกไว้ในระบบ</p>
+      </section>
+      <section class="records-card" aria-live="polite">
+        <div class="records-toolbar">
+          <div>
+            <h2>ข้อมูลสถานะพระที่บันทึกแล้ว</h2>
+            <p>รายการข้อมูลนักศึกษาสถานะพระที่บันทึกไว้ในระบบ</p>
+          </div><button type="button" class="refresh-button" (click)="loadRecords()" [disabled]="isLoading">{{ isLoading
+            ? 'กำลังโหลด…' : 'รีเฟรชรายการ' }}</button>
+        </div>
+        <div *ngIf="actionMessage" class="records-action-message" role="status">{{ actionMessage }}</div>
+        <div *ngIf="isLoading" class="records-state">กำลังโหลดรายการข้อมูล…</div>
+        <div *ngIf="!isLoading && errorMessage" class="records-state records-error">{{ errorMessage }}</div>
+        <div *ngIf="!isLoading && !errorMessage && records.length === 0" class="records-state">
+          ยังไม่มีข้อมูลสถานะพระที่บันทึกไว้</div>
+        <div *ngIf="!isLoading && !errorMessage && records.length > 0" class="table-scroll">
+          <table class="records-table">
+            <thead>
+              <tr>
+                <th>ลำดับ</th>
+                <th>รหัสนักศึกษา</th>
+                <th>ชื่อ–นามสกุล</th>
+                <th>คณะ</th>
+                <th>ปีการศึกษา</th>
+                <th>ภาคการศึกษา</th>
+                <th>ผู้บันทึก</th>
+                <th>วันที่บันทึก</th>
+                <th>รายละเอียด</th>
+                <th>จัดการ</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let record of records; let i = index">
+                <td>{{ i + 1 }}</td>
+                <td class="student-code">{{ record.STD_CODE }}</td>
+                <td>{{ getFullName(record) }}</td>
+                <td>{{ record.FACULTY_NAME_THAI || record.FACULTY_NO || '-' }}</td>
+                <td>{{ record.YEAR }}</td>
+                <td>{{ getSemesterLabel(record.SEMESTER) }}</td>
+                <td>{{ record.INSERT_USER || '-' }}</td>
+                <td>{{ record.INSERT_DATE ? (record.INSERT_DATE | date:'dd/MM/yyyy HH:mm') : '-' }}</td>
+                <td><a class="view-details-button" [routerLink]="['/student-detail', record.STD_CODE]"
+                    [queryParams]="{ year: record.YEAR, semester: record.SEMESTER }">ดูข้อมูลทั้งหมด</a></td>
+                <td><button type="button" class="delete-record-button" (click)="deleteRecord(record)"
+                    [disabled]="isDeletingRecordId !== null">{{ isDeletingRecordId === record.ID ? 'กำลังลบ…' :
+                    'ลบรายการ' }}</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+  </div>
+</div>

@@ -1,0 +1,63 @@
+:host{display:block;min-height:100vh;--ru-navy:#082b52;--ru-blue:#0f396d;--ru-blue-hover:#174a84;--ru-gold:#c9a34a;--ru-line:#dce4ed;--ru-muted:#718096;--ru-text:#19324f;font-family:"Noto Sans Thai","Segoe UI",Tahoma,sans-serif;color:var(--ru-text)}
+*{box-sizing:border-box}
+.record-list-page{min-height:100vh;background:#f4f7fa}
+.topbar{height:74px;display:flex;align-items:center;justify-content:space-between;gap:18px;padding:0 clamp(16px,3vw,34px);position:sticky;top:0;z-index:20;background:#fff;border-bottom:1px solid #dfe6ee;box-shadow:0 4px 20px rgba(8,43,82,.045)}
+.brand{display:flex;align-items:center;gap:12px;min-width:0}
+.logo-frame{width:42px;height:52px;display:grid;place-items:center;flex:0 0 auto}
+.logo-frame img{width:40px;height:49px;object-fit:contain}
+.brand-copy{display:flex;flex-direction:column;align-items:flex-start;line-height:1.15;min-width:0}
+.university-label,.section-eyebrow{color:#9a7417;font-size:10px;font-weight:800;letter-spacing:1.4px}
+.brand-copy strong{margin-top:4px;color:#123b70;font-size:15px;white-space:nowrap}
+.system-name{margin-top:3px;color:#b88920;font-size:12px;font-weight:800}
+.staff-area{display:flex;align-items:center;justify-content:flex-end;gap:10px;min-width:0}
+app-user-profile{display:block;min-width:0}
+.logout-button{min-height:40px;padding:9px 12px;border:1px solid var(--ru-line);border-radius:10px;background:#fff;color:#53637a;display:inline-flex;align-items:center;gap:8px;font:inherit;font-size:12px;font-weight:700;white-space:nowrap;cursor:pointer;transition:background .16s ease,border-color .16s ease,transform .16s ease}
+.logout-button:hover{color:var(--ru-blue);border-color:#c6d2df;background:#f8fafc;transform:translateY(-1px)}
+.nav-icon,.logout-icon{width:20px;height:20px;position:relative;flex:0 0 20px;display:inline-block}
+.logout-icon:before{content:"";position:absolute;width:9px;height:14px;left:2px;top:3px;border:1.6px solid currentColor;border-right:0;border-radius:3px 0 0 3px}
+.logout-icon:after{content:"→";position:absolute;right:0;top:0;font-size:15px;line-height:20px}
+.page-layout{min-height:calc(100vh - 74px);display:flex}
+.sidebar{width:238px;flex:0 0 238px;padding:24px 14px 20px;background:var(--ru-navy);border-right:1px solid rgba(255,255,255,.06);box-shadow:8px 0 24px rgba(6,31,59,.06)}
+.sidebar-heading{display:flex;align-items:center;gap:8px;margin:0 8px 12px;color:#9eafc3;font-size:10px;font-weight:800;letter-spacing:1.1px;text-transform:uppercase}
+.sidebar-heading-line{width:18px;height:1px;background:var(--ru-gold)}
+.sidebar nav{display:grid;gap:5px}
+.nav-item{width:100%;min-height:46px;padding:0 13px;display:flex;align-items:center;gap:12px;border:1px solid transparent;border-radius:11px;color:#d8e2ed;background:transparent;text-decoration:none;font-size:13px;transition:background .16s ease,color .16s ease}
+.nav-item:hover{color:#fff;background:rgba(255,255,255,.065)}
+.nav-item.active{color:#fff;background:#143d6b;box-shadow:inset 3px 0 var(--ru-gold),0 5px 14px rgba(0,0,0,.08)}
+.record-icon,.list-icon{width:20px;height:20px;position:relative;flex:0 0 20px;display:inline-block}
+.record-icon:before,.list-icon:before{content:"";position:absolute;inset:2px 3px;border:1.6px solid currentColor;border-radius:3px}
+.record-icon:after{content:"";position:absolute;width:7px;height:4px;left:6px;top:6px;border-left:1.6px solid currentColor;border-bottom:1.6px solid currentColor;transform:rotate(-45deg)}
+.list-icon:after{content:"≡";position:absolute;left:6px;top:-2px;font-size:16px;line-height:20px}
+.main-content{flex:1;min-width:0;width:calc(100% - 238px);max-width:1600px;margin:0 auto;padding:42px clamp(18px,3vw,42px) 56px}
+.page-heading{margin:0 0 28px}
+.page-heading h1{margin:7px 0 6px;color:#123b70;font-size:30px;line-height:1.25;font-weight:800;letter-spacing:-.3px}
+.page-heading p{margin:0;color:var(--ru-muted);font-size:13px;line-height:1.65}
+.records-card{width:100%;min-width:0;padding:24px;background:#fff;border:1px solid var(--ru-line);border-top:3px solid var(--ru-gold);border-radius:17px;box-shadow:0 12px 34px rgba(8,43,82,.055)}
+.records-toolbar{display:flex;align-items:center;justify-content:space-between;gap:18px;margin-bottom:20px}
+.records-toolbar h2{margin:0;color:#123b70;font-size:18px;line-height:1.45;font-weight:800}
+.records-toolbar p{margin:5px 0 0;color:var(--ru-muted);font-size:12px;line-height:1.6}
+.refresh-button{flex:0 0 auto;min-height:40px;padding:9px 14px;border:1px solid var(--ru-line);border-radius:9px;background:#fff;color:var(--ru-blue);font:inherit;font-size:12px;font-weight:750;cursor:pointer;transition:background .16s ease,border-color .16s ease}
+.refresh-button:hover:not(:disabled){background:#f4f7fb;border-color:#bdcbdc}
+.refresh-button:disabled{opacity:.6;cursor:wait}
+.records-action-message{margin:0 0 14px;padding:11px 13px;border:1px solid #cfe3d7;border-radius:9px;background:#f5fbf7;color:#2f7148;font-size:13px;line-height:1.6}
+.records-state{padding:48px 16px;text-align:center;color:#64748b;font-size:13px;line-height:1.7}
+.records-error{padding:14px;border:1px solid #f0d1cf;border-radius:10px;background:#fff8f7;color:#a12d25}
+.table-scroll{width:100%;max-width:100%;overflow:auto;border:1px solid #e1e7ef;border-radius:12px;-webkit-overflow-scrolling:touch}
+.records-table{width:100%;min-width:1160px;border-collapse:separate;border-spacing:0;font-size:12px;white-space:nowrap}
+.records-table th{padding:13px 12px;background:#f1f5f9;color:#294766;text-align:left;font-size:11px;font-weight:800;border-bottom:1px solid var(--ru-line)}
+.records-table td{padding:13px 12px;color:#40516a;vertical-align:middle;border-bottom:1px solid #edf1f5}
+.records-table th:first-child,.records-table td:first-child{text-align:center;width:58px}
+.records-table tbody tr{transition:background .15s ease}
+.records-table tbody tr:hover{background:#f8fafc}
+.records-table tbody tr:last-child td{border-bottom:0}
+.records-table .student-code{color:#123b70;font-weight:800;font-variant-numeric:tabular-nums}
+.view-details-button,.delete-record-button{min-height:32px;display:inline-flex;align-items:center;justify-content:center;padding:7px 10px;border:1px solid #cbd8e6;border-radius:8px;background:#f7f9fc;color:#123b70;font:inherit;font-size:11px;font-weight:800;text-decoration:none;white-space:nowrap;cursor:pointer;transition:background .16s ease,border-color .16s ease}
+.view-details-button:hover{background:#edf3fa;border-color:#b4c5d9}
+.delete-record-button{border-color:#f0d1cf;background:#fff8f7;color:#a12d25}
+.delete-record-button:hover:not(:disabled){background:#fdecea;border-color:#e6aaa5}
+.delete-record-button:disabled{opacity:.6;cursor:wait}
+.nav-item:focus-visible,.logout-button:focus-visible,.refresh-button:focus-visible,.view-details-button:focus-visible,.delete-record-button:focus-visible{outline:3px solid rgba(201,163,74,.22);outline-offset:2px}
+@media(max-width:1100px){.sidebar{width:216px;flex-basis:216px}.main-content{width:calc(100% - 216px);padding:34px 24px 44px}.records-card{padding:20px}}
+@media(max-width:760px){.topbar{height:72px;padding:0 14px;gap:8px}.brand{gap:8px}.logo-frame{width:34px}.logo-frame img{width:32px;height:42px}.university-label{display:none}.brand-copy strong{font-size:12px;white-space:normal}.system-name{font-size:11px}.staff-area{gap:6px}.logout-button{min-height:36px;padding:7px 9px}.logout-button span:last-child{display:none}.page-layout{display:block;min-height:calc(100vh - 72px)}.sidebar{width:100%;padding:8px 10px;box-shadow:none}.sidebar-heading{display:none}.sidebar nav{display:flex;gap:5px;overflow-x:auto}.nav-item{width:auto;min-width:max-content;min-height:41px;padding:0 11px;font-size:12px}.nav-item.active{box-shadow:inset 0 -3px var(--ru-gold)}.main-content{width:100%;padding:27px 15px 34px}.page-heading{margin-bottom:22px}.page-heading h1{font-size:25px}.records-card{padding:17px 13px;border-radius:14px}.records-toolbar{align-items:stretch;flex-direction:column;gap:12px;margin-bottom:15px}.records-toolbar h2{font-size:16px}.refresh-button{width:100%}.records-table th,.records-table td{padding:11px 10px}.records-state{padding:36px 10px}}
+@media(max-width:430px){.staff-area app-user-profile{max-width:128px;overflow:hidden}.main-content{padding-right:11px;padding-left:11px}.page-heading h1{font-size:22px}.records-card{padding:15px 10px}.records-toolbar p{font-size:11px}}
+@media(prefers-reduced-motion:reduce){.record-list-page *{transition:none!important}}

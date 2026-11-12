@@ -1,0 +1,78 @@
+<main class="login-page">
+  <div class="ambient ambient-one" aria-hidden="true"></div>
+  <div class="ambient ambient-two" aria-hidden="true"></div>
+  <section class="login-shell" aria-labelledby="login-title">
+    <div class="brand-panel">
+      <div class="brand-content">
+        <div class="logo-frame">
+          <img src="images/ramkhamhaeng-logo.svg" alt="ตราสัญลักษณ์มหาวิทยาลัยรามคำแหง พระรูปพ่อขุนรามคำแหงมหาราช" />
+        </div>
+        <div class="university-label">RAMKHAMHAENG UNIVERSITY</div>
+        <h1>ระบบบันทึกข้อมูลนักศึกษา</h1>
+        <div class="gold-line" aria-hidden="true"></div>
+        <h2>สถานะพระ</h2>
+        <p>ระบบสารสนเทศสำหรับเจ้าหน้าที่<br />มหาวิทยาลัยรามคำแหง</p>
+      </div>
+      <div class="panel-pattern" aria-hidden="true"></div>
+    </div>
+    <div class="form-panel">
+      <div class="form-header">
+        <span class="eyebrow"></span>
+        <h3 id="login-title">เข้าสู่ระบบ</h3>
+        <p>กรุณาเข้าสู่ระบบด้วยบัญชีเจ้าหน้าที่ของคุณ</p>
+      </div>
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" novalidate>
+        <div class="field">
+          <label for="username">Email / Username</label>
+          <div class="input-wrap">
+            <span class="input-icon user-icon" aria-hidden="true"></span>
+            <input id="username" type="text" formControlName="username" autocomplete="username"
+              placeholder="กรอก Email หรือ Username" />
+          </div>
+          @if (loginForm.controls.username.touched && loginForm.controls.username.invalid) {
+          <small class="field-error">กรุณากรอก Email หรือ Username</small>
+          }
+        </div>
+        <div class="field">
+          <label for="password">Password</label>
+          <div class="input-wrap">
+            <span class="input-icon lock-icon" aria-hidden="true"></span>
+            <input id="password" [type]="showPassword ? 'text' : 'password'" formControlName="password" autocomplete="current-password"
+              placeholder="กรอกรหัสผ่าน" />
+            <button type="button" class="toggle-password-btn" (click)="togglePasswordVisibility()" [attr.aria-label]="showPassword ? 'ซ่อนรหัสผ่าน' : 'แสดงรหัสผ่าน'" [attr.title]="showPassword ? 'ซ่อนรหัสผ่าน' : 'แสดงรหัสผ่าน'">
+              <svg *ngIf="!showPassword" class="eye-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <!-- Eye icon (เปิดตา) -->
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                <circle cx="12" cy="12" r="3"></circle>
+              </svg>
+              <svg *ngIf="showPassword" class="eye-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <!-- Eye off icon (ปิดตา/ขีดฆ่า) -->
+                <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                <line x1="1" y1="1" x2="23" y2="23"></line>
+              </svg>
+            </button>
+          </div>
+          @if (loginForm.controls.password.touched && loginForm.controls.password.invalid) {
+          <small class="field-error">กรุณากรอกรหัสผ่าน</small>
+          }
+        </div>
+        @if (errorMessage) {
+        <div class="error-box" role="alert"><span class="error-icon" aria-hidden="true">!</span><span>{{ errorMessage
+            }}</span></div>
+        }
+        @if (successMessage) {
+        <div class="success-box" role="status"><span class="success-icon" aria-hidden="true">✓</span><span>{{
+            successMessage }}</span></div>
+        }
+        <button class="login-button" type="submit" [disabled]="isLoading">
+          @if (isLoading) {
+          <span class="spinner" aria-hidden="true"></span><span>กำลังเข้าสู่ระบบ...</span>
+          } @else { <span>เข้าสู่ระบบ</span> }
+        </button>
+      </form>
+      <div class="security-note"><span class="shield-icon"
+          aria-hidden="true"></span><span>ระบบสำหรับเจ้าหน้าที่เท่านั้น</span></div>
+      <div class="copyright">Ramkhamhaeng University · Staff Information System</div>
+    </div>
+  </section>
+</main>
